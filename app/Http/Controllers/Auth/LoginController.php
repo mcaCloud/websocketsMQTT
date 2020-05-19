@@ -3,24 +3,23 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+
+use Illuminate\Http\Response;
+
+//Importo el trait de autenticacion del usuario
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\User;
 use Log;
+
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-
+    /* Aqui estamos utilizando un TRAIT ubicado en 
+        vendor/laravel/framework/src/iluminate/foundation/auth/
+        Importamos la clase arriba y ahora solo lo mencionamos en los modelos 
+        Heredo automaticamente todas las clases y metodos de ese 
+        TRAIT y las puedo usar aqui diretamente*/
     use AuthenticatesUsers;
 
     /**
@@ -28,6 +27,8 @@ class LoginController extends Controller
      *
      * @var string
      */
+
+    /*La ruta raiz esta protegida, solo usuario autorizado puede acceder*/
      protected $redirectTo = '/';
 
     /**
@@ -57,19 +58,21 @@ class LoginController extends Controller
     /**
      * @inheritdoc
      */
+/* ********************AUTHENTICATED**************************/ 
     protected function authenticated(Request $request, $user)
     {
         // Registering last user login date and time
         $user->last_login = Carbon::now();
         $user->save();
     }
-
+/* ******************** /AUTHENTICATED**************************/ 
     /**
      * Log the user out of the application.
      *
      * @param \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+/* ********************LOGOUT**************************/ 
     public function logout(Request $request)
     {
         $this->guard()->logout();
@@ -80,7 +83,7 @@ class LoginController extends Controller
 
         return redirect('/login');
     }
-
+/* ******************** /LOGOUT**************************/ 
     /**
      * Show the application's login form.
      *
@@ -94,19 +97,34 @@ class LoginController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
+
+/* ********************LOGIN**************************/
+
+    /* La request es para recibir por URL los datos del FORM*/ 
     public function login(Request $request)
     {
+        /*Aqui llamo al TRAIT que importe de AuthenticateUsers*/
+        /*Ahi estan las reglas de validacion para el formulario*/
+        /*La funcion se llama (validateLogin)*/
         $this->validateLogin($request);
+        /* Aqui llamo al TRAIT AuthenticationUser como puente para poder ingresar al TRAIT de Throttles y el metodo de hasTooManyLoginAttemts*/
 
-        // If the class is using the ThrottlesLogins trait, we can automatically throttle
-        // the login attempts for this application. We'll key this by the username and
-        // the IP address of the client making these requests into this application.
+        /*Si se cumple la funccion del trait ThrottlesLogin 
+          (hasTooManyLoginAttempts)*/
+        /*Esta funcion utiliza dos funciones dentro del mismo TRAIT*/
+        /* Una para delimitar cuantas intentos hay (maxAttempts)*/
+        /*Y otra utiliza el USERname y la IP desde la cual se ingresa como KEY para comparar (throttleKey)*/
+        /*Ambas funciones estan dentro del ThrottlesLogins TRAIT*/
+
         if ($this->hasTooManyLoginAttempts($request)) {
+            /*Si el usuario se pasó de intentos desde la mima IP*/
+            /*Se procede a aplicar el metodo (fireLockOutEvent)*/
+            /*Se crea un evento y un TILD al usuario*/
             $this->fireLockoutEvent($request);
-
             return $this->sendLockoutResponse($request);
         }
 
+        /*Ahora se el usuario ingresa credenciales incorrectas*/
         if ($this->attemptLogin($request)) {
             return $this->sendLoginResponse($request);
         }
@@ -118,6 +136,8 @@ class LoginController extends Controller
 
         return $this->sendFailedLoginResponse($request);
     }
+
+/* ******************** /LOGIN**************************/ 
 
 
     protected function sendFailedLoginResponse(Request $request)

@@ -2,7 +2,7 @@
 <html lang="es">
 
 <head>
-	<title>{{ ENV('APP_TITLE') }}</title>
+	<title>@yield('title')</title>
 
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,17 +17,18 @@
 	<!-- Main style -->
 	<link rel="stylesheet" href="{{ mix('/css/dashboard.css') }}">
 	<link rel="stylesheet" href="{{ mix('/css/dashboard_resources.css') }}">
-
 </head>
+<!------------------------------------------------------------->
+<body class="bg-gradient-light">
 
-<body class="bg-gradient-primary">
-
+	<!------CONTAINER----------->
 	<div class="container">
-					@yield('content')
+		@yield('content')
 	</div>
+	<!------CONTAINER----------->
 
-
-  <script src="{{ mix('/js/dashboard.js') }}"></script>
+  	<script src="{{ mix('/js/dashboard.js') }}"></script>
+  	
 	<script src="{{ mix('/js/dashboard_resources.js') }}"></script>
 	@include('dashboard.common.message')
 

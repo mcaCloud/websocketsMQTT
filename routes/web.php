@@ -1,23 +1,27 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 //\URL::forceScheme('https');
+
+/***************LOGIN-LOGOUT******************************/
+
+/*Esta ruta entra dentro del LoginController y no utiliza un metodo de ahi, sino que de una vez ahi llama un TRAIT (showLoginForm) porque dentro del controlador llame al TRAIT AuthenticatesUser*/
+/*Entonces se puede mencionar el controlador y directamente un trait*/
+/*El name se lo pongo en caso de que ocupe el codigo. Lo llamaria con un route('login.form')*/
+/* Desde el TRAIT AuthenticateUsers llamo return view (auth.login)*/
+Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login.form');
+
+Route::post('/login', 'Auth\LoginController@login')->name('login');
+
+
+Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
+/*************** /LOGIN-LOGOUT /******************************/
+
 
 
 Route::get('/', 'Dashboard\HomeController@index')->name('index');
 
-Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login.form');
-Route::post('/login', 'Auth\LoginController@login')->name('login');
-Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
+
+
 Route::post('/password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 Route::post('/password/reset', 'Auth\ResetPasswordController@reset')->name('password.change');
 Route::get('/password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.reset');
