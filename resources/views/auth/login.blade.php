@@ -42,7 +42,22 @@
                 <button type="submit" class="btn btn-primary btn-user btn-block">
                   Iniciar Sesión
                 </button>
+                <!--Esto es para que me aparezcan los errores cuando
+                    ha exedido el numero de attempts
+                    Deberia de funcionar desde el TRAIT pero no lo hace aún
+                    Esto es un override a la funcion de sendFailedLoginResponse-->
+                @if (count($errors))
 
+                  @if (count($errors) == 1 && in_array(__('auth.throttle'), $errors->get('email')))
+                        <p>@lang('auth.throttle')</p>
+                  @else
+                    <ul>
+                      @foreach ($errors->all() as $error)
+                        {{ $error }}
+                      @endforeach
+                    </ul>
+                  @endif
+                @endif 
               </form>
               <!-- ---------- /FORM -------------->
               <hr>
