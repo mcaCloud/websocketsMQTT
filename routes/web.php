@@ -28,26 +28,33 @@ Route::get('/', 'Dashboard\HomeController@index')->name('index');
 */
 /*************** RESET-PASSWORD ******************************/
 /**/
+/******   1  *****/
 /*Esta es la ruta cuando el USER hace click en el 'Forgot Password', me lleva a la vista 'email'*/
 /*Dentro el controlador 'ForgotPasswordController' solo hay una referencia hacia el TRAIT de 'SendsPasswordresetEmails'*/
 /*Dentro de ese TRAIT utilizo el metodo de 'showLinkRequestForm'*/
 Route::get('/password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.reset');
-/**********/
 
+/******   2   *****/
 /*Una vez dentro de la vista 'email' se envia el POST del formulario de reset password*/
 /*Dentro el controlador 'ForgotPasswordController' solo hay una referencia hacia el TRAIT de 'SendsPasswordresetEmails'*/
 /*Dentro de ese TRAIT utilizo el metodo de 'sendResetLinkEmail'*/
 Route::post('/password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+
+
+/******   3   *****/
+/* Dentro del controlador de 'ResetPasswordController' solo hace referencia a el TRAIT de 'ResetPasswords' ubicado en'Illuminate/Foundation/Auth/ResetPasswords'*/
+/*Dentro de ese TRAIT llamo al metodo 'showResetForm'*/
+Route::get('/password/reset/{token} ', 'Auth\ResetPasswordController@showResetForm')->name('password.change');
+
+
+/******   4   *****/
+/* Dentro del controlador de 'ResetPasswordController' solo hace referencia a el TRAIT de 'ResetPasswords' ubicado en'Illuminate/Foundation/Auth/ResetPasswords'*/
+/*Dentro de ese TRAIT llamo al metodo 'reset'*/
+Route::post('/password/reset', 'Auth\ResetPasswordController@reset')->name('password.request');
 /**********/
-
-
-Route::post('/password/reset', 'Auth\ResetPasswordController@reset')->name('password.change');
-/**********/
-
-
 
 /**/
-Route::get('/password/reset/{token} ', 'Auth\ResetPasswordController@showResetForm');
+
 /*************** RESET-PASSWORD ******************************/
 /*
 /*
