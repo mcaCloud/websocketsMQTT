@@ -62,7 +62,7 @@
               <!-- ---------- /FORM -------------->
               <hr>
               <div class="text-center">
-                <a class="small" href="forgot-password.html">Olvidaste tu contraseña?</a>
+                <a class="small" href="{{route('password.reset')}}">Olvidaste tu contraseña?</a>
               </div>
               
             </div>

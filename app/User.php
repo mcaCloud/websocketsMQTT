@@ -8,6 +8,8 @@ use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 
+/*Para poder enviar reset password links*/
+use Illuminate\Contracts\Auth\CanResetPassword;
 class User extends Authenticatable
 {
   use HasRoles, Notifiable;
