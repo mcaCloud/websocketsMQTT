@@ -17,6 +17,7 @@
 	<!-- Main style -->
 	<link rel="stylesheet" href="{{ mix('/css/dashboard.css') }}">
 	<link rel="stylesheet" href="{{ mix('/css/dashboard_resources.css') }}">
+	
 </head>
 <!------------------------------------------------------------->
 <body class="bg-gradient-light">

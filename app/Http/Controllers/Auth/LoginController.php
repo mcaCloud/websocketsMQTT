@@ -38,7 +38,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest', ['except' => ['logout', 'getLogout']]);
     }
 
     /**
@@ -75,6 +75,7 @@ class LoginController extends Controller
 /* ********************LOGOUT**************************/ 
     public function logout(Request $request)
     {
+        /*El usuario se deslogea por medio de una guardia*/
         $this->guard()->logout();
 
         $request->session()->flush();
