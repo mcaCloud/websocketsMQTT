@@ -11,18 +11,21 @@ class StatusUpdat extends Notification
 {
     use Queueable;
 
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
+    public $user;
     /*Esto es para poder utilizar el objeto user*/
     /*Hay que injectar el usuario en el contructor*/
+    /*Todo lo que entre en este constructor como user lo guardamos en la variable de arriba User para que la info se pueda acceder*/
     public function __construct($user){
+
     $this->user = $user;
         //
     }
 
+
+
+Mail::send('welcome', [], function($message) {
+    $message->to('myawesomeemail@domain.com')->subject('Testing mails'); 
+});
 
 /*
 /*
@@ -32,9 +35,7 @@ class StatusUpdat extends Notification
     decide el canal que va a utilizar for delivery*/
     public function via($notifiable)
     {
-
-        /*return('mail');*/
-        return ['database'];
+        return ['database','mail'];
     }
 /****************** VIA *************************/
 /*
@@ -45,32 +46,36 @@ class StatusUpdat extends Notification
     /*Receive a $notifiable entity and should return an Illuminate\Notifications\Messages\MailMessage*/
     /*Aqui se modifica que es lo que va a llevar el mensaje*/
 
-    /* function toMail($notifiable)
+    function toMail($notifiable)
     {
-        return (new MailMessage)*/
+        return (new MailMessage)
                     
                     /*En caso de que se quiera informar a los usuarios sobre un error*/
-                   /* ->error()
+                    ->error()
                     ->subject('Order Status')
                     ->from('sender@example.com', 'Sender')
                     ->greeting('Hello!') 
                     ->line('Your order status has been updated')
                     ->action('Check it out', url('/'))
                     ->line('Best regards!');
-    }*/
+    }
 /**************** /ToMAIL ***************************/
 
 
 
-    /**
-     * Get the array representation of the notification.
-     *
-    */
-    public function toArray($notifiable)
+    /*Utilizamos este metodo porque lo vamos a guardar en la base dedatos*/
+    public function toDatabase($notifiable)
     {
         return [
+            /*Esta variable guarda el ID del user que la envio*/
+            /*Funciona muy bien cuando necesito saber tema defollowers que suscriben*/
+            'user_id'=>$this->user->id,
             'name' => $this->user->first_name,
-            'email' => $this->user->email,
+            'email' => $this->user->email
+            
+
+
+
         ];
     }
 }

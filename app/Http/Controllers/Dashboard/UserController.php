@@ -26,7 +26,6 @@ use Auth;
 /*************MAIL-NOTIFICATION****************/
 /*Por cada mail que desee enviar lo tengo que importar aqui para poderlo utilizar*/
 use App\Mail\newUser;
-
 use App\Notifications\StatusUpdat;
 
 /*Para recibir las notificacion desde la base de datos y desplegarlas en el panel de control*/
@@ -52,7 +51,7 @@ class UserController extends Controller
         /*THIS es un puntero que hace referencia a un OBJETO*/
         /*El AUTHORIZE es un metodo del controller App\Http\Requests\UserRequest
         /* Se autoriza a quien tenga permiso de 'listar-usuarios'*/
-        $this->authorize('listar-usuarios');
+        /*$this->authorize('listar-usuarios');
 
         /*Creo un variable USERS para que me guarde el QUERY el modelo de usuario*/
         $users = User::query();
@@ -178,8 +177,11 @@ class UserController extends Controller
         /*El correo se lo enviamos al user que acabamos de crear*/
         /*Y lo que le enviamos es el correo que se llama 'newUser' dentro de la carpeta de MAIL en los controladores*/
         /*LE pasamos la VAR del user que acaba de crearse para poder utilizar las propiedasd en el body del email*/
-        /*\Mail::to($user)->send(new newUser($user));*/
+        \Mail::to($user)->send(new newUser($user));
 
+
+        /* Esta notificacion la guardamos en la base de datos y tambien la enviamos por corre*/
+        /*Revisar la notificacion para ver la logica*/
         Notification::send($user, new StatusUpdat($user));
 
 
