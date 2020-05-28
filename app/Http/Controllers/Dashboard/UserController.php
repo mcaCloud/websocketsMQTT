@@ -22,6 +22,8 @@ use App\User;
 /* Middleware vendor/laravel/framework/src/iluminate/auth/middleware/Authenticate*/
 use Auth;
 
+use App\Mail\newUser;
+
 /*Esto es para poder utilizar el ojeto REQUEST*/
 use Illuminate\Http\Request;
 
@@ -159,8 +161,15 @@ class UserController extends Controller
           $user->roles()->attach($request->input('role_id'));
         /*Guardamos en la base de datos*/
         \DB::commit();
+
+        /*Cuando el usuario nuevo a sido creado le enviamos un correo de bienvenida*/
+        /*Tuvimos que ya haber importado el modelo MAIL y el correo que queremos enviar*/
+        /*El correo se lo enviamos al user que acabamos de crear*/
+        /*Y lo que le enviamos es el correo que se llama 'newUser' dentro de la carpeta de MAIL en los controladores*/
+        \Mail::to($user)->send(new newUser);
+
         /*Finalmente nos redirige a la base de datos con un mensaje
-          que incluya el nombre completo del nuevo usuario*/
+        que incluya el nombre completo del nuevo usuario*/
         return redirect()->route('dashboard::users.index')->with([
             'message' => 'Se ha creado con éxito al usuario [' . $user->completeName() . ']',
             'level' => 'success'

@@ -123,3 +123,6 @@ Route::get('/miniatura/{filename}','UserProfile@getImage') ->name('miniatura');
 /******************** PERFIL-DE-USUARIO ***********************************/
 /*************/
 /************/
+
+/*************/
+/************/
