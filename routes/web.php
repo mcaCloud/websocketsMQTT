@@ -58,16 +58,20 @@ Route::post('/password/reset', 'Auth\ResetPasswordController@reset')->name('pass
 /*
 /*
 */
-
+/*Esto lo que hace es que pueda solicitar cuaquier ruta del dashboard con el prefijo*/
+/*dashboard va a ir enfrente de todas las rutas*/
+/*Utilizo name space porque todas las rutas de los controlladores estan dentro del folder dashboard*/
 Route::group(['prefix' => 'dashboard', 'namespace' => 'Dashboard', 'as' => 'dashboard::'], function () {
 
  /*Todas estas rutas estan agrupadas con el middleware 'auth' que es un metodo dentro del controllador 'router.php' ubicado en'Illuminate/Routing*/
  /*aqui se pueden ver las diferentes rutas que el el metodo cubre*/
-
   Route::group(['middleware' => ['auth']], function () {
 
         Route::get('/', 'HomeController@index')->name('index');
 
+        /*Maneja todos los metodos tipicos con una solo linea de codigo*/
+        /*Al ser Resourceful ya tiene metodos preestablacidos para las operaciones mas basicas de crud*/
+        /*El except significa que el controller maneja las defualt actions except for SHOW*/
         Route::resource('/users', 'UserController', ['except' => ['show']]);
 
         Route::get('/users/{user}/access', 'UserController@toggleAccess')->name('users.toggleAccess');
@@ -96,13 +100,26 @@ Route::group(['prefix' => 'dashboard', 'namespace' => 'Dashboard', 'as' => 'dash
 
 });
 
+/******************** /PREFIX-NAMESPACE ***********************************/
+/*************/
+/************/
+/******************** PERFIL-DE-USUARIO ***********************************/
+/*Se recomienda poner las llamadas a los metodos antes de poner el RESOURCEFULL*/
+Route::get('/editar/{id}','UserProfile@edit') ->name('perfil');
 
-/*
-|--------------------------------------------------------------------------
-| Ruta especifica para visualizar paginas estáticas.
-|--------------------------------------------------------------------------
-|
-| Esta ruta permite visualizar paginas estáticas siempre que se las pida
-| a través de la extensión "html".
-|
-*/
+Route::post('/actualizar/{id}','UserProfile@update') ->name('updateUser');
+
+/*------------GET-IMAGE------------------*/
+/*Esta es la ruta que utilizo para obtener la informacion de los avatares*/
+/*Tengo que realizar rutas parecidas para los otros controladores*/ 
+Route::get('/miniatura/{filename}','UserProfile@getImage') ->name('miniatura');
+
+ /*Maneja todos los metodos tipicos con una solo linea de codigo*/
+ /*Al ser REsourceful ya tiene metodos preestablacidos para las operaciones mas basicas de crud*/
+ /*El except significa que el controller maneja las default actions except for...*/
+    Route::resource('/Perfil', 'UserProfile')->except([
+    'create', 'store', 'show'
+]);
+/******************** PERFIL-DE-USUARIO ***********************************/
+/*************/
+/************/

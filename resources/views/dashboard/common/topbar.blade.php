@@ -19,83 +19,14 @@
   <!----------- Topbar Navbar ----------->
   <ul class="navbar-nav ml-auto">
 
+    <!--////////////////////////////////////////////////////////-->
     <!-------------------------->
     <!-------- ALERTS ---------->
-    <li class="nav-item dropdown no-arrow mx-1">
-
-      <!--------ICONO-BUTTON-------->
-      <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <i class="fas fa-bell fa-fw"></i>
-
-        <!-- Counter - Alerts -->
-        <!-- Trabajar la connectividad a los mensajes
-             Ahora esta de manera estatica-->
-        <span class="badge badge-danger badge-counter">3+</span>
-      </a>
-      <!--------ICONO-BUTTON-------->
-
-      <!--------Alerts-menu -------------->
-      <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
-
-        <h6 class="dropdown-header">
-          Centro de mensajes
-        </h6>
-
-        <!----------MSJ-1----------------->
-        <a class="dropdown-item d-flex align-items-center" href="#">
-          <div class="mr-3">
-            <div class="icon-circle bg-primary">
-              <i class="fas fa-file-alt text-white"></i>
-            </div>
-          </div>
-
-          <div>
-            <div class="small text-gray-500">December 12, 2019</div>
-            <span class="font-weight-bold">A new monthly report is ready to download!</span>
-          </div>
-        </a>
-        <!----------/MSJ-1----------------->
-
-        <!----------MSJ-2----------------->
-        <a class="dropdown-item d-flex align-items-center" href="#">
-          <div class="mr-3">
-            <div class="icon-circle bg-success">
-              <i class="fas fa-donate text-white"></i>
-            </div>
-          </div>
-
-          <div>
-            <div class="small text-gray-500">December 7, 2019</div>
-            $290.29 has been deposited into your account!
-          </div>
-        </a>
-        <!----------/MSJ-2----------------->
-
-        <!----------MSJ-3----------------->
-        <a class="dropdown-item d-flex align-items-center" href="#">
-          <div class="mr-3">
-            <div class="icon-circle bg-warning">
-              <i class="fas fa-exclamation-triangle text-white"></i>
-            </div>
-          </div>
-
-          <div>
-            <div class="small text-gray-500">December 2, 2019</div>
-            Spending Alert: We've noticed unusually high spending for your account.
-          </div>
-        </a>
-        <!----------/MSJ-3----------------->
-
-        <!----------MSJ-4----------------->
-        <!-- Este link me  lleva a una pagina con todas las alertas-->
-        <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-        <!----------/MSJ-4----------------->
-
-      </div>
-      <!--------Alerts-menu -------------->
-    </li>
+        @include('dashboard.common.topBarNotifications')
     <!-------- Alerts ---------->
     <!-------------------------->
+    <!--////////////////////////////////////////////////////////-->
+
 
     <!--Esto solo es una linea para dividir partes-->
     <div class="topbar-divider d-none d-sm-block"></div>
@@ -104,15 +35,25 @@
     <!--------User Information ------------->
     <li class="nav-item dropdown no-arrow">
 
-
       <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{Auth::user()->first_name}}</span>
-      </a>
 
+        <div style="">        
+            <!--------MINIATURA----------------->
+  
+
+                <img src="{{ URL::to('/') }}/img/avatar.png" class="img-fluid" style="vertical-align: middle;width: 50px;height: 50px;border-radius: 50%;box-shadow: 0 0 8px rgba(0,0,0,0.8);"/>           
+                    
+            <!----------------------/IMAGE-FORM----------------------------->
+        </div>
+
+      </a>
 
       <!-- Dropdown - User Information -->
       <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-        <a class="dropdown-item" href="#">
+        
+        <!-- Para que el titulo me lleve al perfil tenemos que pasarle el nombre de la ruta y el parametro del [id] que estamos recorriendo en este preciso instante-->
+        <!-- Como estamos en la plantilla principal el llamado a las propiedades del ojeto user se hacen diferente. So se puede utilizar el objeto userProfile que creamos en el controlador porque no funciona.Tenemos que cojer las propiedades del Auth::user -->
+        <a class="dropdown-item" href="{{route('perfil',['id' =>Auth::user()->id]) }}">
           <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
           Perfil
         </a>
@@ -132,10 +73,13 @@
       </div>
     </li>
     <!--------User Information ------------->
+    <!--////////////////////////////////////////////////////////-->
+
 
   </ul>   
   <!----------- Topbar Navbar ----------->
   <!------------------------------------->
+<!--///////////////////////////////////////////////////////-->
 
 </nav>
 <!------------------------------------------------------->
