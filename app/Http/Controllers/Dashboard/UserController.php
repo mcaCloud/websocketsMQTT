@@ -22,8 +22,17 @@ use App\User;
 /* Middleware vendor/laravel/framework/src/iluminate/auth/middleware/Authenticate*/
 use Auth;
 
+
+/*************MAIL-NOTIFICATION****************/
 /*Por cada mail que desee enviar lo tengo que importar aqui para poderlo utilizar*/
 use App\Mail\newUser;
+
+use App\Notifications\StatusUpdat;
+
+/*Para recibir las notificacion desde la base de datos y desplegarlas en el panel de control*/
+use Illuminate\Support\Facades\Notification;
+/************* /MAIL-NOTIFICATION****************/
+
 
 /*Esto es para poder utilizar el ojeto REQUEST*/
 use Illuminate\Http\Request;
@@ -163,13 +172,18 @@ class UserController extends Controller
         /*Guardamos en la base de datos*/
         \DB::commit();
 
+
         /*Cuando el usuario nuevo a sido creado le enviamos un correo de bienvenida*/
         /*Tuvimos que ya haber importado el modelo MAIL y el correo que queremos enviar*/
         /*El correo se lo enviamos al user que acabamos de crear*/
         /*Y lo que le enviamos es el correo que se llama 'newUser' dentro de la carpeta de MAIL en los controladores*/
         /*LE pasamos la VAR del user que acaba de crearse para poder utilizar las propiedasd en el body del email*/
+        /*\Mail::to($user)->send(new newUser($user));*/
 
-        \Mail::to($user)->send(new newUser($user));
+        Notification::send($user, new StatusUpdat($user));
+
+
+
 
         /*Finalmente nos redirige a la base de datos con un mensaje
         que incluya el nombre completo del nuevo usuario*/
