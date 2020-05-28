@@ -5,6 +5,6 @@
 	<title></title>
 </head>
 <body>
-	<h1>Welcome email for new users</h1>
+	<h1>Welcome email for new users, {{$user->first_name}}</h1>
 </body>
 </html>

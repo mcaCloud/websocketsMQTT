@@ -22,6 +22,7 @@ use App\User;
 /* Middleware vendor/laravel/framework/src/iluminate/auth/middleware/Authenticate*/
 use Auth;
 
+/*Por cada mail que desee enviar lo tengo que importar aqui para poderlo utilizar*/
 use App\Mail\newUser;
 
 /*Esto es para poder utilizar el ojeto REQUEST*/
@@ -166,7 +167,9 @@ class UserController extends Controller
         /*Tuvimos que ya haber importado el modelo MAIL y el correo que queremos enviar*/
         /*El correo se lo enviamos al user que acabamos de crear*/
         /*Y lo que le enviamos es el correo que se llama 'newUser' dentro de la carpeta de MAIL en los controladores*/
-        \Mail::to($user)->send(new newUser);
+        /*LE pasamos la VAR del user que acaba de crearse para poder utilizar las propiedasd en el body del email*/
+
+        \Mail::to($user)->send(new newUser($user));
 
         /*Finalmente nos redirige a la base de datos con un mensaje
         que incluya el nombre completo del nuevo usuario*/
