@@ -55,6 +55,44 @@ return [
             'visibility' => 'public',
         ],
 
+//-------------------------------------------------//
+// -------------DISCOS  adicionales --------------//
+        'images' => [
+            'driver' => 'local',
+            //Va a utilizar la ruta 'app\images'
+            'root' => storage_path('app/images'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
+        'videos' => [
+            'driver' => 'local',
+            'root' => storage_path('app/videos'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
+
+        'avatars' => [
+            'driver' => 'local',
+            'root' => storage_path('app/avatars'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
+
+        'audios' => [
+            'driver' => 'local',
+            'root' => storage_path('app/audios'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
+
+        'docs' => [
+            'driver' => 'local',
+            'root' => storage_path('app/docs'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
+//--------------------------------------------------/
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
