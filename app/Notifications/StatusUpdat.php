@@ -21,12 +21,6 @@ class StatusUpdat extends Notification
         //
     }
 
-
-
-Mail::send('welcome', [], function($message) {
-    $message->to('myawesomeemail@domain.com')->subject('Testing mails'); 
-});
-
 /*
 /*
 /*

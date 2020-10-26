@@ -49,7 +49,7 @@
  				<h5>
 					<a href="/x/{{$notification->data['user_id']}}" >
  						{{ $notification->data['name'] }} 
- 						genero esta notificacion
+ 						genero esta notificacion	
  					</a>
  				</h5>
  			@endforeach

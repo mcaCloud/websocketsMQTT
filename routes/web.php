@@ -103,6 +103,7 @@ Route::group(['prefix' => 'dashboard', 'namespace' => 'Dashboard', 'as' => 'dash
 /******************** /PREFIX-NAMESPACE ***********************************/
 /*************/
 /************/
+
 /******************** PERFIL-DE-USUARIO ***********************************/
 /*Se recomienda poner las llamadas a los metodos antes de poner el RESOURCEFULL*/
 Route::get('/editar/{id}','UserProfile@edit') ->name('perfil');
@@ -124,20 +125,16 @@ Route::get('/miniatura/{filename}','UserProfile@getImage') ->name('miniatura');
 /*************/
 /************/
 
+
+
+/******************** NOTIFIACIONES ***********************************/
 /*************/
 /************/
+
 /*Esta es una funcion de testing para ver como se puede retrive la info de la notificacion y imprimirla en pantalla*/
 /* Me imprime directamente lo que viene dentro del objeto*/
 Route::get('/d', function(){
 
-    /* Esto es importante ver como  funciona para poder imprimir toda la info*/
-    /*Necesito imprimir algo aprecido dende un vista*/
-    /* IMprime las notificaciones de usuario authenticado*/
-    foreach (Auth::user()->notifications as $notification) {
-        /*Esto es para que cuando se envie la notificacion se marque con leida dentro de la base de datos*/
-        //$notification-> markAsRead();
-        dd($notification);
-    }
 
     /* Esto es importante ver como  funciona para poder imprimir toda la info*/
     /*Necesito imprimir algo aprecido dende un vista*/
@@ -148,6 +145,10 @@ Route::get('/d', function(){
         dd($notification);
     }
 
+    return redirect()->back()
+        ->with('success', 'Notificaciones marcadas como leídas'
+    ); 
+
 });
 /*Esta es una funcion de testing para ver como se puede retrive la info de la notificacion y imprimirla en pantalla*/
 /* Me imprime directamente lo que viene dentro del objeto*/
@@ -155,3 +156,13 @@ Route::get('/x/{user_id}', function(){
 
  return view ('notifications.notificationTemplate');
 });
+
+
+
+
+/******************** /notifications ***********************************/
+/*************/
+/************/
+
+/*************/
+/************/
